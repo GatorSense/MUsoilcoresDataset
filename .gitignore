@@ -1,0 +1,6 @@
+# NIfTI volumes
+*.nii.gz
+*.nii
+
+# Excel temporary lock files (created when a workbook is open)
+~$*
