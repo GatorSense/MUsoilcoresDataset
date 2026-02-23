@@ -20,8 +20,9 @@ from utils import (
 root_path = "..//MU//SOIL64_8_10_20"  # Root directory (relative to base_path or absolute)
 file_name = "SOIL_FRIT_8_10_20Series_003_Bone 0.5 SCAN 1.2"  # Optional: single DICOM series name (no .dcm); None = load DICOMs from root_path
 labelID = "N1002"  # Label index (int) or label name (e.g. N1002)
-output = "data"  # Output .nii.gz path; None = <root_basename>_<labelID>_cropped.nii.gz under root
+output = f"data/{labelID}.nii.gz"  # Output .nii.gz path; None = <root_basename>_<labelID>_cropped.nii.gz under root
 base_path = "."  # Prefix for root_path
+min_extent = 10  # Minimum voxels in each dimension (avoids tiny dimensions like 3); use 1 for tight crop only
 
 
 def main():
@@ -52,7 +53,7 @@ def main():
 
     labels_for_crop = labels_array
     cropped_volume, cropped_mask, new_affine = crop_to_mask_region(
-        volume, labels_for_crop, label_index, labels_img.affine
+        volume, labels_for_crop, label_index, labels_img.affine, min_extent=min_extent
     )
 
     if output:

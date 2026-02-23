@@ -8,11 +8,11 @@ from matplotlib.widgets import Slider
 from utils import get_paths, load_volume, load_labels, load_label_descriptions
 
 # Volumes: (1) single DICOM file (set file_name) or (2) list of DICOM files in root_path (file_name = None).
-root_path = r"..\MU\1.2.392.200036.9116.2.6.1.48.1215780058.1595283802.490100\1.2.392.200036.9116.2.6.1.48.1215780058.1595286344.274290"
-file_name = None  # None = list of DICOM files in root (e.g. 00000, 00010); else single .dcm file name
+# root_path = r"..//MU//SOIL64_8_10_20"
+# file_name = "SOIL_FRIT_8_10_20Series_003_Bone 0.5 SCAN 1.2"  # None = list of DICOM files in root (e.g. 00000, 00010); else single .dcm file name
 
-# root_path = r"..\MU\SOIL_8_10_20_4"
-# file_name = "SOIL_8_10_20_4Series_003_Bone 0.5 SCAN 10"
+root_path = r"..\MU\DICOM_01\0000\002"
+file_name = None
 
 base_path = "."
 full_root, _dicom_path, labels_path, descriptions_path, _ = get_paths(root_path, file_name, base_path)
@@ -51,6 +51,15 @@ label_cmap = ListedColormap(colors)
 
 n_slices = pixel_array.shape[0]
 rgb_max = pixel_array.max() if pixel_array.max() > 1 else 1
+volume_4d = pixel_array.ndim == 4  # (Z, Y, X, C); display uses grayscale slice
+
+
+def _slice_for_display(i):
+    """Return 2D slice (Y, X) for display; convert 4D (Y, X, C) to grayscale if needed."""
+    s = pixel_array[i]
+    if s.ndim == 3:
+        s = np.tensordot(s, [0.299, 0.587, 0.114], axes=(-1, 0))
+    return s / rgb_max
 
 
 def overlay_volume(alpha=0.5):
@@ -58,9 +67,9 @@ def overlay_volume(alpha=0.5):
     fig, ax = plt.subplots(1, 1, figsize=(8, 8))
     plt.subplots_adjust(bottom=0.12)
     slice_idx = n_slices // 2
-    rgb = pixel_array[slice_idx] / rgb_max
+    rgb = _slice_for_display(slice_idx)
     lab = labels_aligned[slice_idx]
-    scan_cmap = "gray" if volume_from_list_of_files else None
+    scan_cmap = "gray" if volume_from_list_of_files or volume_4d else None
     im_rgb = ax.imshow(rgb, cmap=scan_cmap)
     masked = np.ma.masked_where(lab == 0, lab)
     im_lab = ax.imshow(masked, cmap=label_cmap, alpha=alpha, vmin=0, vmax=n_labels)
@@ -81,7 +90,7 @@ def overlay_volume(alpha=0.5):
     def update(val):
         i = int(slider.val)
         ax.set_title(f"Slice {i} / {n_slices - 1}")
-        im_rgb.set_data(pixel_array[i] / rgb_max)
+        im_rgb.set_data(_slice_for_display(i))
         im_lab.set_data(np.ma.masked_where(labels_aligned[i] == 0, labels_aligned[i]))
         fig.canvas.draw_idle()
 
