@@ -8,11 +8,11 @@ from matplotlib.widgets import Slider
 from utils import get_paths, load_volume, load_labels, load_label_descriptions
 
 # Volumes: (1) single DICOM file (set file_name) or (2) list of DICOM files in root_path (file_name = None).
-# root_path = r"..//MU//SOIL64_8_10_20"
-# file_name = "SOIL_FRIT_8_10_20Series_003_Bone 0.5 SCAN 1.2"  # None = list of DICOM files in root (e.g. 00000, 00010); else single .dcm file name
+root_path = r"..//MU//SOIL64_2_8_7_20_1"
+file_name = "SOIL_FRIT_8_7_20_1Series_004_Bone 0.5 SCAN 4"  # None = list of DICOM files in root (e.g. 00000, 00010); else single .dcm file name
 
-root_path = r"..\MU\DICOM_01\0000\002"
-file_name = None
+# root_path = r"..\MU\SOIL64_2_8_7_20_1"
+# file_name = None
 
 base_path = "."
 full_root, _dicom_path, labels_path, descriptions_path, _ = get_paths(root_path, file_name, base_path)

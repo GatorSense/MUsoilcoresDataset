@@ -17,9 +17,9 @@ from utils import (
 )
 
 # --- Input: set these directly ---
-root_path = "..//MU//SOIL64_8_10_20"  # Root directory (relative to base_path or absolute)
-file_name = "SOIL_FRIT_8_10_20Series_003_Bone 0.5 SCAN 1.2"  # Optional: single DICOM series name (no .dcm); None = load DICOMs from root_path
-labelID = "N1002"  # Label index (int) or label name (e.g. N1002)
+root_path = "..//MU//SOIL64_2_8_7_20_1"  # Root directory (relative to base_path or absolute)
+file_name = "SOIL_FRIT_8_7_20_1Series_004_Bone 0.5 SCAN 4"  # Optional: single DICOM series name (no .dcm); None = load DICOMs from root_path
+labelID = "N1404"  # Label index (int) or label name (e.g. N1002)
 output = f"data/{labelID}.nii.gz"  # Output .nii.gz path; None = <root_basename>_<labelID>_cropped.nii.gz under root
 base_path = "."  # Prefix for root_path
 min_extent = 10  # Minimum voxels in each dimension (avoids tiny dimensions like 3); use 1 for tight crop only

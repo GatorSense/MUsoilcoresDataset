@@ -1,0 +1,5 @@
+﻿Model,Lower Threshold,Upper Threshold,Choose pred feature
+dynunet,7,222.1614,Range 3 px
+segresnet,9,300,Range 2 px
+unet,7,200,Range 2 px
+unetr,0,400,Range 2 px
