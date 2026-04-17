@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls -lh /i/MUsoilcoresDataset/*.ipynb)",
+      "Bash(python -c \"import json; nb = json.load\\(open\\('/i/MUsoilcoresDataset/descriptive_analysis.ipynb'\\)\\); cells = nb['cells']; print\\('\\\\n'.join\\([c['source'][0] if isinstance\\(c['source'], list\\) else c['source'] for c in cells if c['cell_type']=='markdown'][:15]\\)\\)\")"
+    ]
+  }
+}
